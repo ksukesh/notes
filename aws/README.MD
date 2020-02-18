@@ -1,0 +1,1 @@
+This repository has notes of AWS
