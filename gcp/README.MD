@@ -1,1 +1,1 @@
-This repository has notes of AWS
+This repository has notes of GCP

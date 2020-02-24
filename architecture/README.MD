@@ -1,1 +1,1 @@
-This repository has notes of Python
+This repository has notes of Architecture
