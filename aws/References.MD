@@ -4,6 +4,49 @@ https://aws.amazon.com/storagegateway/faqs/
 https://aws.amazon.com/athena/faqs/
 https://aws.amazon.com/dynamodb/faqs/
 https://aws.amazon.com/swf/faqs/
+https://aws.amazon.com/route53/faqs/
+https://aws.amazon.com/amazon-mq/faqs/
+
+# Cheatsheets
+https://tutorialsdojo.com/aws-cheat-sheet-aws-certified-solutions-architect-associate/
+https://tutorialsdojo.com/comparison-of-aws-services-for-udemy-students/
+
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-cloudfront/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-api-gateway/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-compute-cloud-amazon-ec2/
+https://tutorialsdojo.com/aws-cheat-sheet-aws-lambda/
+https://tutorialsdojo.com/aws-cheat-sheet-aws-systems-manager/
+https://tutorialsdojo.com/aws-cheat-sheet-aws-identity-and-access-management-iam/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-s3/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-elastic-container-service-amazon-ecs/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-ebs/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-elasticache/
+https://tutorialsdojo.com/aws-cheat-sheet-redis-cluster-mode-enabled-vs-disabled-vs-memcached/
+https://tutorialsdojo.com/amazon-aurora/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-dynamodb/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-redshift/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-relational-database-service-amazon-rds/
+https://tutorialsdojo.com/aws-cheat-sheet-cloudwatch-agent-vs-ssm-agent-vs-custom-daemon-scripts/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-cloudwatch/
+https://tutorialsdojo.com/aws-cheat-sheet-aws-key-management-service-aws-kms/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-vpc/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-elasticsearch-amazon-es/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-kinesis/
+https://tutorialsdojo.com/aws-cheat-sheet-aws-directory-service/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-efs/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-s3-vs-ebs-vs-efs/
+https://tutorialsdojo.com/aws-cheat-sheet-aws-cloudtrail/
+
+
+https://tutorialsdojo.com/aws-cheat-sheet-aws-auto-scaling/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-mq/
+https://tutorialsdojo.com/aws-cheat-sheet-amazon-sqs/
+
+
+
+
+# Usefuls
+Locality of services/resources - https://jayendrapatil.com/aws-global-vs-regional-vs-az-resources/
 
 # Architecture
 https://aws.amazon.com/architecture/well-architected/
@@ -64,6 +107,20 @@ it monitors performance. IT monitors - Compute, Storage and Content Delivery,
 On the EC2, it can monitor - CPU, network, Disk, Status Check. 
 It monitors events every 5 minutes by default, but you can turn on the detailed monitoring to monitor every 1 minute. 
 You can create CloudWatch alarm with trigger notifications
+
+CloudWatch has available Amazon EC2 Metrics for you to use for monitoring CPU utilization, Network utilization, Disk performance, and Disk Reads/Writes. In case that you need to monitor the below items, you need to prepare a custom metric using a Perl or other shell script, as there are no ready to use metrics for these:
+
+Memory utilization
+
+disk swap utilization
+
+disk space utilization
+
+page file utilization
+
+log collection
+
+Take note that there is a multi-platform CloudWatch agent which can be installed on both Linux and Windows-based instances. You can use a single agent to collect both system metrics and log files from Amazon EC2 instances and on-premises servers. This agent supports both Windows Server and Linux and enables you to select the metrics to be collected, including sub-resource metrics such as per-CPU core. It is recommended that you use the new agent instead of the older monitoring scripts to collect metrics and logs.
 
 Cloud Trail
 Is about auditing
@@ -142,6 +199,45 @@ Snapshots exists on S3. Snapshots are incremental.
 Storage Gateway
 Storage Gateway allows hybrid storage between on-prem and AWS cloud. 
 
+## Load Balancers
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/load-balancer-types.html
+ELBs can be found in EC2 section of the Menu. Dont look for them in network section.  
+
+There are three types
+1. Application LB - suited for load balancing of http and https traffic. They operate at layer 7 of tcp and are application aware. They are intelligent and you can create advanced request routing for sending specific requests to specific servers. Can be internal or internet-facing. 
+2. Network LB
+suited for TCP traffic where extreme performance is required. Operates at layer 4 of tcp. Capable of handling millions of requests per second with ultra low latency. 
+3. Classic LB - can be used for http/https lb on layer 7 specific features like sticky sessions and x-forward. You can also use for tcp lb on layer 4. Can be internal(within VPC with internal ip) of external (internt facing) 
+    Classic LB responds with 504 (Gateway timeout) if your application stops responding.
+
+x-forwarded-for header - with LB in between the application and the client, the client ip that reaches to the application is the LB IP. TO get the actual ip of the client, use x-forwarded-for header from the request.  
+
+Instances monitored by ELB are reported as InService or OutofService. 
+Health checks can be configured while creating the LB. To configure health check, http url can be mentioned. 
+LB has their own DNS name, and not the IP address. 
+
+To create Application LB, first create Target group, which is a group of EC2 instances, IP addresses, or Lambda functions.
+LB routes requests to the targets in a target group using the target group settings that you specify, and performs health checks on the targets using the health check settings that you specify.
+
+Sticky Sessions allows to bind user sessions to a specific EC2 instance. 
+Classic load balancers can use sticky sessions to route user specific request to the specific instance. 
+Application load balancers can use sticky sessions to route user specific request to the target group and not individual instance. 
+
+Cross Zone LB
+If you dont have cross zone lb enabled, the load on one zone can be more than the other, based on the number of instances in each zone. 
+If you ahve cross zone lb enabled, the load on all ec2 instances will be equally distributed because lb can go across zone to cater to requets 
+
+Path patterns allow you to direct traffic based on URL in the request. 
+
+## Autoscaling groups
+To configure the autoscaling group. First, create/choose either a launch configuration or a launch template(new) to specify the parameters that your Auto Scaling group uses to launch instances. Using these, the autoscaled instance will be created. 
+Launch Configuration is the template for the type of intances for which auto scaling has to be configured.
+Launch Template gives you iption to launch one type of instane or a combination of instance types and purchase options.  
+
+Then define the autoscaling group, by selecting the launch configuration, network, sub-network, number to start with, set scaling policy [ based on cpu, network load, request count]. You can also add notification 
+
+https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/?&trk=ha_a131L000005uJTZQA2&trkCampaign=pac-edm-2019-spot-sitemerch-autoscalingblog&sc_ichannel=ha&sc_icampaign=Adoption_Campaign_pac-edm-2019-spot-site_merch-adoption-all-auto_scaling_console_test&sc_ioutcome=Enterprise_Digital_Marketing
+
 
 ## Lambda
 https://aws.amazon.com/blogs/compute/parallel-processing-in-python-with-aws-lambda/
@@ -168,19 +264,32 @@ While creating the rds instance, we made sure that we create the db as well.
 We then created a wordpress site to access the db. The wordpress site running on the EC2 instanece. We installed the wordpress site using the startup script. 
 Once our instance was created, we went to the public ip of the instance, which asked us to configure the RDS details. 
 
+RDS Backups
+Automated Backups
+Automated backups allow you to recover your database in a retention period of 1 to 35 days. Automated backups take a full daily snapshots, and also store the full transaction logs throughout the day. When you do a recovery, AWS will first take the most recent daily backup, and then apply the transaction logs relevant to that day. THis allows a point in time recovery down to a second.
+Automated backups, enabled by default, stores the backup data in S3, and you get free storage equal to the size of your database. During the backup window, there may be elevated latency. 
 
-Troubleshooting
-EC2 instance not connecting
-https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-ssh-troubleshooting/
-We found that the VPC's route table was not configured with the correct internet gateway. We created an IG. Attached it to the VPC. Then changed the route table of VPC to have source as internet (0.0.0.0/0) and target as the IG. After all this, we created a EC2 instance. 
-Wordpress wp-config.php not getting updated
-Login to the instance, and create a new wp-config.php file. Add the content on the WP config page. 
+Database Snapshots
+Are manual backups, and are kept even after delete of the db instance (unlike automated).
 
-Connecting to EC2 instance using putty
-https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html
+The restoration happens in a new RDS instance with a new DNS name (and not the original one)
 
-No Default subnet - while creating EC2 instance
-https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-subnet
+Encryption at Rest
+Available for Oracle, MySql, SqlServer, PostgreSql, MariaDB, and Aurora. Supported using AWS KMS. Once the RDS instance is encrypted, the data stored at rest in the underlying storage is encrypted, as are its automated backups, read replicas, and snapshots. 
+
+Multi AZ
+Keeps a copy of the prod database to another AZ, which acts as a failover. This is not used for performance improvements. 
+Available for Oracle, MySql, SqlServer, PostgreSql, and MariaDB.
+
+Read Replica
+Asynchronous replication of the DB for read heavy workloads. 
+Each replica has its own DNS endpoint. You can have replicas that have multi-az. You can also create the replicas of multi-az dbs. 
+Read replicas can be promoted to their own database, at which point the replication stops. 
+You can have read replica in a second region. 
+Available for Oracle, MySql, SqlServer, PostgreSql, MariaDB, and Aurora.
+
+
+
 
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.html
 https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_CommonTasks.BackupRestore.html
@@ -191,6 +300,11 @@ https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.RDSSecurityGroup
 https://aws.amazon.com/rds/pricing/
 
 ## Dynamo DB
+is a nosql db, with single digit millisecond latency at any scale. it is a fully managed document or key-value data store. 
+Its flexible data model and reliable performance makes it a great fit for mobile, web, gaming, ad-tech, iot kind of apps.  
+stored on ssd storage. spread across 3 different data centers. default is eventual consistent reads (with almost 1 second delay). you can enable strongly consistent reads if your application needs to read right after (or if 1 second is unacceptable) the read. 
+
+
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/CapacityUnitCalculations.html
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html
@@ -199,7 +313,8 @@ https://aws.amazon.com/dynamodb/pricing/
 
 ## RedShift
 
-## ElasticCache
+## ElastiCache
+https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/WhatIs.html
 
 ## Athena
 https://aws.amazon.com/athena/faqs/
@@ -215,6 +330,35 @@ https://docs.aws.amazon.com/IAM/latest/UserGuide/resources.html
 https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html
 https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html
 
+## Route53
+Elastic Load Balancers dont have pre-defined IPv4 addresses; you resolve to them using a DNS name
+TODO - Understand diffrence between Alias Record and CNAME
+Given a choice, always choose an Alias Record over cname. 
+
+Common DNS Types
+SOA Records
+NS Records
+A Records
+CNAME
+MX Records
+PTR Records
+
+It can take up to 3 days to register the domain name. 
+
+Routing Policies
+Simple Routing - You have one record in DNS with multiple IP addresses. If you have multiple IPs in a record, Route53 returns all the values in a random order
+Weighted Routing - You have one IP address per record. Each record is assigned a weight. The weights togther add up t 100. Health Checks are way to setup check health checks on individual records. If a record fails a health check, it is removed from R53, until it passes the health check. You can add SNS notification for a HC failure. 
+Latency based Routing - Allows to route your traffic based on the lowest network latency for your end user (ie which region will give them the fastest response time). To use Latency based routing, you create a latency resource record set for EC2 (or ELB) resource in each region that hosts your website. when Route 53 receives a query for your website, it selects the latency resource record set for the region that gives the user the lowest latency.   
+Failover Routing - used when you want to create active passive setup 
+Geolocation Routing - Geolocation Routing lets you choose where your traffic will be sent based on the geographic location of your users 
+Geoproximity Routing - routes traffic to your website based on the georgraphic location of hte user and your resource. You can choose to route more or less traffic of a given resource by speficying a value to a given resource, known as bias. A bias shrinks or expands the size of the geo region from which the traffic is routed to a resource. To use geo proximity routing, you must use Route 53 traffic flow 
+Multivalue Answer Routing - lets you configure R53 to return multiple values, such as IP addresses for your web servers, in response to DNS query. You can specify multiple values for almost any record, but multi value answer routing also lets you check the health of each resource, so R53 return values for only healthy resources. This is "similar" to simple routing. 
+
+https://aws.amazon.com/route53/faqs/
+
+
+
+
 
 # Storage
 https://help.acloud.guru/hc/en-us/articles/115002011194-AWS-Storage-Types-S3-EFS-EBS
@@ -227,6 +371,7 @@ https://aws.amazon.com/storagegateway/faqs/
 ## EBS
 https://aws.amazon.com/ebs/features/
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSPerformance.html
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html
 
 
 ## EFS
@@ -242,3 +387,28 @@ https://aws.amazon.com/xray/
 ## Simple Workflow service (SWF)
 https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-welcome.html#http-service-apis
 https://aws.amazon.com/swf/faqs/
+
+
+
+
+
+# Troubleshooting
+EC2 instance not connecting
+https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-ssh-troubleshooting/
+We found that the VPC's route table was not configured with the correct internet gateway. We created an IG. Attached it to the VPC. Then changed the route table of VPC to have source as internet (0.0.0.0/0) and target as the IG. After all this, we created a EC2 instance. 
+Wordpress wp-config.php not getting updated
+Login to the instance, and create a new wp-config.php file. Add the content on the WP config page. 
+
+
+Connecting to EC2 instance using putty
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html
+
+No Default subnet - while creating EC2 instance - aws ec2 create-default-subnet --availability-zone us-east-1a
+https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-subnet
+
+NO Public IP for the EC2 instance. 
+You may have used non-default subnet, and have selected Auto Assign Setting as disabled while creating the instance. Change the Auto Assign to Enable
+
+
+
+1. 
