@@ -64,9 +64,21 @@ https://tutorialsdojo.com/aws-cheat-sheet-amazon-sqs/
 
 # Comparisions
 https://tutorialsdojo.com/comparison-of-aws-services/
+https://tutorialsdojo.com/amazon-s3-vs-ebs-vs-efs/
+
 
 # Usefuls
 Locality of services/resources - https://jayendrapatil.com/aws-global-vs-regional-vs-az-resources/
+
+# White papers
+https://d1.awsstatic.com/whitepapers/aws-overview.pdf
+https://d1.awsstatic.com/whitepapers/architecture/AWS_Well-Architected_Framework.pdf
+https://d1.awsstatic.com/whitepapers/AWS_Cloud_Best_Practices.pdf
+https://d1.awsstatic.com/whitepapers/Security/AWS_Security_Best_Practices.pdf
+https://d1.awsstatic.com/whitepapers/AWS%20Storage%20Services%20Whitepaper-v9.pdf
+https://d1.awsstatic.com/whitepapers/aws-building-fault-tolerant-applications.pdf
+
+
 
 # Architecture
 https://aws.amazon.com/architecture/well-architected/
