@@ -1,0 +1,26 @@
+# FAQ
+https://aws.amazon.com/ec2/faqs/
+https://aws.amazon.com/lambda/faqs/
+https://aws.amazon.com/elasticloadbalancing/faqs/
+https://aws.amazon.com/ec2/autoscaling/faqs/
+https://aws.amazon.com/ebs/faqs/
+https://aws.amazon.com/ebs/faqs/
+https://aws.amazon.com/storagegateway/faqs/
+https://aws.amazon.com/efs/faq/
+https://aws.amazon.com/rds/aurora/faqs/
+https://aws.amazon.com/dynamodb/faqs/
+https://aws.amazon.com/elasticache/faqs/
+https://aws.amazon.com/vpc/faqs/
+https://aws.amazon.com/route53/faqs/
+https://aws.amazon.com/iam/faqs/
+https://aws.amazon.com/cloudwatch/faqs/
+https://aws.amazon.com/cloudtrail/faqs/
+https://aws.amazon.com/kinesis/data-streams/faqs/
+https://aws.amazon.com/cloudfront/faqs/
+https://aws.amazon.com/sqs/faqs/
+https://aws.amazon.com/sns/faqs/
+https://aws.amazon.com/cloudformation/faqs/
+https://aws.amazon.com/amazon-mq/faqs/
+https://aws.amazon.com/ram/faqs/
+https://aws.amazon.com/athena/faqs/
+https://aws.amazon.com/swf/faqs/
