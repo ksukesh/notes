@@ -221,3 +221,6 @@ CloudWatch can monitor CPU, Network, and Queue Size.
 It is important to understand CloudWatch logs, and difference between custom and default metrics. 
 
 Load Balancer balances the instances
+
+
+Text Axioms
